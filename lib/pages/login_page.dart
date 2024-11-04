@@ -42,15 +42,15 @@ showLoadingCircle(context);
 
         if (mounted) hideLoadingCircle(context);
 
-        
-       if (mounted) {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text(e.toString()),
-              ),
-              );
-          }
+      
+      //  if (mounted) {
+      //       showDialog(
+      //         context: context,
+      //         builder: (context) => AlertDialog(
+      //           title: Text(e.toString()),
+      //         ),
+      //         );
+      //     }
 
   }
 

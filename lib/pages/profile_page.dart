@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uas_twitter_mediasosial/auth/auth_service.dart';
+import 'package:uas_twitter_mediasosial/components/my_bio_box.dart';
+import 'package:uas_twitter_mediasosial/components/my_input_alert_box.dart';
+import 'package:uas_twitter_mediasosial/components/my_post_tile.dart';
 import 'package:uas_twitter_mediasosial/database/database_provider.dart';
 import 'package:uas_twitter_mediasosial/models/user.dart';
 
@@ -16,12 +19,15 @@ final String uid;
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  late final listeningProvider = Provider.of<DatabaseProvider>(context);
 late final databaseProvider =
  Provider.of<DatabaseProvider>(context, listen: false);
 
  // user info
  UserProfile? user;
  String currentUserId = AuthService().getCurrentUid();
+
+ final bioTextController = TextEditingController();
 
  bool _isLoading = true;
 
@@ -40,9 +46,40 @@ Future<void> loadUser() async{
     _isLoading = false;
   });
 }
+
+void _showEditBioBox() {
+  showDialog(
+    context: context,
+    builder: (context) => MyInputAlertBox(
+    textController: bioTextController,
+    hinText: "Edit bio..",
+    onPressed: saveBio,
+    onPressedText: "Save")
+    );
+}
+
+Future<void> saveBio() async {
+
+  setState(() {
+    _isLoading = true;
+  });
+
+  await databaseProvider.updateBio(bioTextController.text);
+
+  await loadUser();
+
+  setState(() {
+    _isLoading = false;
+  });
+
+  print("saving..");
+}
   //UI
   @override
   Widget build(BuildContext context) {
+
+    final allUserPosts = listeningProvider.fillerUserPosts(widget.uid);
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface ,
       appBar: AppBar(
@@ -59,9 +96,9 @@ Future<void> loadUser() async{
             style:TextStyle(color:Theme.of(context).colorScheme.primary),
              ),
           ),
-
+      
           const SizedBox(height: 25),
-
+      
           //profile 
           Center(
             child: Container(
@@ -78,8 +115,45 @@ Future<void> loadUser() async{
             ),
           ),
           const SizedBox(height: 25),
-
-
+      
+      
+      
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Bio", style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
+                GestureDetector(
+                  onTap: _showEditBioBox,
+                  child: Icon(Icons.settings,
+                                 color: Theme.of(context).colorScheme.primary ),
+                ),
+              ],
+            ),
+          ),
+      
+          const SizedBox(height: 10),
+      
+          //bio box
+          MyBioBox(text: _isLoading ? '...' : user!.bio),
+      
+          allUserPosts.isEmpty ?
+        const Center(child: Text("No posts yet.."),)
+      
+        :
+      
+        ListView.builder(
+          itemCount:  allUserPosts.length,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder:(context, index){
+            final post = allUserPosts[index];
+      
+            return MyPostTile(post: post);
+          } 
+          ),
         ],
       )
     );

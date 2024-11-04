@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uas_twitter_mediasosial/auth/auth_service.dart';
 import 'package:uas_twitter_mediasosial/models/user.dart';
+
+import '../models/post.dart';
 
 class DatabaseService {
   final  _db = FirebaseFirestore.instance;
@@ -47,4 +50,64 @@ Future<UserProfile?> getUserFromFirebase(String uid) async {
     return null;
   }
 }
+
+
+//upfate user bio
+Future<void> updateUserBioInFirebase(String bio) async{
+  String uid = AuthService().getCurrentUid();
+
+  try {
+    await _db.collection("Users").doc(uid).update({'bio' :bio});
+  }catch (e) {
+    print(e);
+  }
+}
+
+
+// post a message
+Future<void> postMessageInFirebase(String message) async{
+  try{
+    String uid = _auth.currentUser!.uid;
+
+    UserProfile? user = await getUserFromFirebase(uid);
+
+    //create a new post
+    Post newPost = Post(
+      id: '',
+      uid: uid,
+      name: user!.name,
+      username: user.username,
+      message: message,
+      timestamp: Timestamp.now(),
+      likeCount: 0,
+      likeBy: [],
+      );
+    Map<String, dynamic> newPostMap = newPost.toMap();
+
+    await _db.collection("Post").add(newPostMap);
+
+  }
+  catch (e){
+    print(e);
+  }
+}
+
+
+
+Future<List<Post>> getAllPostFromFirebase() async {
+
+  try {
+    QuerySnapshot snapshot = await _db
+    .collection("Post")
+    .orderBy('timestamp', 
+    descending: true)
+    .get();
+    return snapshot.docs.map((doc) => Post.fromDocument(doc)).toList();
+  }
+  catch (e) {
+    return [];
+  }
+}
+
+
 }
