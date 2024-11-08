@@ -4,6 +4,7 @@ import 'package:uas_twitter_mediasosial/components/my_drawer.dart';
 import 'package:uas_twitter_mediasosial/components/my_input_alert_box.dart';
 import 'package:uas_twitter_mediasosial/components/my_post_tile.dart';
 import 'package:uas_twitter_mediasosial/database/database_provider.dart';
+import 'package:uas_twitter_mediasosial/helper/navigate_pages.dart';
 
 import '../models/post.dart';
 
@@ -86,7 +87,11 @@ return posts.isEmpty ?
   itemBuilder: (context, index) {
     final post = posts[index];
 
-    return MyPostTile(post: post);
+    return MyPostTile(
+      post: post,
+      onUserTap: () => goUserpage(context, post.uid),
+      onPostTap: () => goPostPage(context, post),
+      );
  }
  );
   }

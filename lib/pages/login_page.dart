@@ -86,13 +86,14 @@ showLoadingCircle(context);
               children: [
             
                 // logo
-                Icon(
-                  Icons.lock_open_rounded,
-                  size: 80,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+               Image.asset(
+  'lib/helper/icon.png',
+  width: 420, // Sesuaikan ukuran sesuai kebutuhan
+  height: 300,
+),
+
             
-                const SizedBox(height: 50),
+                const SizedBox(height: 5),
                 //welcome
                 Text("Welcome back, you've been missed!",
                 style: TextStyle(color:  Theme.of(context).colorScheme.primary,
@@ -129,7 +130,7 @@ showLoadingCircle(context);
                    text: "Login",
                    ),
 
-                   const SizedBox(height: 50),
+                   const SizedBox(height: 10),
             
                 // not a member? register now
                 Row(

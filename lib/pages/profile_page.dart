@@ -7,6 +7,8 @@ import 'package:uas_twitter_mediasosial/components/my_post_tile.dart';
 import 'package:uas_twitter_mediasosial/database/database_provider.dart';
 import 'package:uas_twitter_mediasosial/models/user.dart';
 
+import '../helper/navigate_pages.dart';
+
 
 
 class ProfilePage extends StatefulWidget {
@@ -138,6 +140,12 @@ Future<void> saveBio() async {
       
           //bio box
           MyBioBox(text: _isLoading ? '...' : user!.bio),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0 ,top: 25),
+            child: Text("posts", style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
+          ),
       
           allUserPosts.isEmpty ?
         const Center(child: Text("No posts yet.."),)
@@ -151,8 +159,12 @@ Future<void> saveBio() async {
           itemBuilder:(context, index){
             final post = allUserPosts[index];
       
-            return MyPostTile(post: post);
-          } 
+            return MyPostTile(
+              post: post,
+              onUserTap: (){},
+              onPostTap: () =>  goPostPage(context, post),
+              );
+          },
           ),
         ],
       )
