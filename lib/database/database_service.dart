@@ -9,7 +9,8 @@ class DatabaseService {
   final _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<void> saveUserInfoInFirebase({required String name, required String email}) async {
+  Future<void> saveUserInfoInFirebase(
+      {required String name, required String email}) async {
     String uid = _auth.currentUser!.uid;
     String username = email.split('@')[0];
 
@@ -161,4 +162,91 @@ class DatabaseService {
       return [];
     }
   }
+
+  Future<void> followUserInfirebasse(String uid) async {
+    final currentUSerId = _auth.currentUser!.uid;
+
+    await _db
+        .collection("Users")
+        .doc(currentUSerId)
+        .collection("Following")
+        .doc(uid)
+        .set({});
+
+    await _db
+        .collection("Users")
+        .doc(uid)
+        .collection("Followers")
+        .doc(currentUSerId)
+        .set({});
+  }
+
+  Future<void> unFollowUserInFirebase(String uid) async {
+    final currentUSerId = _auth.currentUser!.uid;
+
+    await _db
+        .collection("Users")
+        .doc(currentUSerId)
+        .collection("Following")
+        .doc(uid)
+        .delete();
+
+    await _db
+        .collection("Users")
+        .doc(uid)
+        .collection("Followers")
+        .doc(currentUSerId)
+        .delete();
+  }
+
+  Future<void> followUserInFirebase(String uid) async {
+  final currentUserId = _auth.currentUser!.uid;
+
+  await _db
+      .collection("Users")
+      .doc(currentUserId)
+      .collection("Following")
+      .doc(uid)
+      .set({});
+
+  await _db
+      .collection("Users")
+      .doc(uid)
+      .collection("Followers")
+      .doc(currentUserId)
+      .set({});
+}
+
+Future<void> unfollowUserInFirebase(String uid) async {
+  final currentUserId = _auth.currentUser!.uid;
+
+  await _db
+      .collection("Users")
+      .doc(currentUserId)
+      .collection("Following")
+      .doc(uid)
+      .delete();
+
+  await _db
+      .collection("Users")
+      .doc(uid)
+      .collection("Followers")
+      .doc(currentUserId)
+      .delete();
+}
+
+Future<List<String>> getFollowerUidFromFirebase(String uid) async {
+  final snapshot =
+      await _db.collection("Users").doc(uid).collection("Followers").get();
+
+  return snapshot.docs.map((doc) => doc.id).toList();
+}
+
+Future<List<String>> getFollowingUidFromFirebase(String uid) async {
+  final snapshot =
+      await _db.collection("Users").doc(uid).collection("Following").get();
+
+  return snapshot.docs.map((doc) => doc.id).toList();
+}
+
 }

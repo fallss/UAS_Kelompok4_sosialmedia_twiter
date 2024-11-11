@@ -87,7 +87,7 @@ showLoadingCircle(context);
             
                 // logo
                Image.asset(
-  'lib/helper/icon.png',
+  'lib/images/icon.png',
   width: 420, // Sesuaikan ukuran sesuai kebutuhan
   height: 300,
 ),

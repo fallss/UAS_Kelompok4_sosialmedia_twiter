@@ -97,13 +97,13 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
             
                 // logo
-                Icon(
-                  Icons.lock_open_rounded,
-                  size: 80,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                 Image.asset(
+  'lib/images/register.png',
+  width: 420, // Sesuaikan ukuran sesuai kebutuhan
+  height: 200,
+),
             
-                const SizedBox(height: 50),
+                const SizedBox(height: 10),
                 //welcome
                 Text("Lets create an account for you",
                 style: TextStyle(color:  Theme.of(context).colorScheme.primary,
@@ -156,7 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
                    text: "Register",
                    ),
 
-                   const SizedBox(height: 50),
+                   const SizedBox(height: 20),
             
                 // not a member? register now
                // not a member? register now
