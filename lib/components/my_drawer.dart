@@ -4,6 +4,8 @@ import 'package:uas_twitter_mediasosial/pages/profile_page.dart';
 
 import '../pages/setting_page.dart';
 import 'my_drawer_tile.dart';
+import '../pages/community_page.dart';
+import '../pages/subscription_page.dart';
 
 class MyDrawer extends StatelessWidget {
   MyDrawer({super.key});
@@ -67,6 +69,37 @@ class MyDrawer extends StatelessWidget {
                 title: "S E A R C H",
                 icon: Icons.search,
                 onTap: () {},
+              ),
+              
+              MyDrawerTile(
+                title: "C O M M U N I T Y",
+                icon: Icons.people,
+                onTap: () {
+                  // pop menu drawer
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CommunityPage(),
+                    ),
+                  );
+                },
+              ),
+
+
+              MyDrawerTile(
+                title: "S U B S C R I P T I O N",
+                icon: Icons.settings,
+                onTap: () {
+                  // pop menu drawer
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SubscriptionScreen(),
+                    ),
+                  );
+                },
               ),
 
               // settings tile
