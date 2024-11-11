@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uas_twitter_mediasosial/auth/auth_service.dart';
+import 'package:uas_twitter_mediasosial/pages/chatting_page.dart';
 import 'package:uas_twitter_mediasosial/pages/profile_page.dart';
 
 import '../pages/setting_page.dart';
@@ -69,6 +70,21 @@ class MyDrawer extends StatelessWidget {
                 title: "S E A R C H",
                 icon: Icons.search,
                 onTap: () {},
+              ),
+
+              // Chat Tile
+              MyDrawerTile(
+                title: "C H A T", 
+                icon: Icons.chat, 
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context, 
+                    MaterialPageRoute(
+                      builder: (context) => const ChatPage(), // Ubah ke ChatPage
+                    ),
+                  );
+                },
               ),
               
               MyDrawerTile(
