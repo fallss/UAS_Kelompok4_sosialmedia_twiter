@@ -67,6 +67,10 @@ flutter:
   assets:
     - lib/images/icon.png
     - lib/images/register.png
+    - lib/images/birds.png
+    - lib/images/slide2.png
+    - lib/images/slide3.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
