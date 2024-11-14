@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uas_twitter_mediasosial/pages/home_page.dart';
 import 'package:uas_twitter_mediasosial/pages/profile_page.dart';
 
 import '../models/post.dart';
@@ -19,5 +20,12 @@ void goPostPage(BuildContext context, Post post) {
     MaterialPageRoute(
       builder: (context) => PostPage(post: post,)
     ),
+  );
+}
+
+void goHomePage(BuildContext context) {
+  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(),
+  ),
+  (route) => route.isFirst,
   );
 }

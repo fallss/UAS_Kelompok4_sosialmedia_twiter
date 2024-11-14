@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:uas_twitter_mediasosial/auth/auth_service.dart';
 import 'package:uas_twitter_mediasosial/database/database_service.dart';
 import 'package:uas_twitter_mediasosial/models/user.dart';
@@ -17,9 +18,11 @@ class DatabaseProvider extends ChangeNotifier {
   Future<void>updateBio(String bio) => _db.updateUserBioInFirebase(bio);
 
   List<Post> _allPost = [];
+  List<Post> _followingPosts = [];
 
 
   List<Post> get allPots => _allPost;
+  List<Post> get followingPosts => _followingPosts;
 
   Future<void> postMessage(String message) async {
     await _db.postMessageInFirebase(message);
@@ -27,10 +30,14 @@ class DatabaseProvider extends ChangeNotifier {
     await loadAllPosts();
   }
 
+
   Future<void> loadAllPosts() async {
     final allPosts = await _db.getAllPostFromFirebase();
 
     _allPost = allPosts;
+
+    loadFollowingPosts();
+
 
     initializeLikeMap();
 
@@ -44,6 +51,21 @@ class DatabaseProvider extends ChangeNotifier {
   //
   List<Post> fillerUserPosts(String uid) {
     return _allPost.where((post) => post.uid == uid).toList();
+  }
+
+  //load following posts 
+  Future<void> loadFollowingPosts() async {
+    //get current uid
+    String currentUid = _auth.getCurrentUid();
+
+    //get list of uids 
+    final followingUserIds = await _db.getFollowingUidFromFirebase(currentUid);
+
+    //filter all the post
+    _followingPosts = _allPost.where((post) => followingUserIds.contains(post.uid)).toList();
+
+    //update ui
+    notifyListeners();
   }
 
 
@@ -239,4 +261,76 @@ bool isFollowing(String uid) {
 }
 
 void userProfile(String uid) {}
+
+final Map<String, List<UserProfile>> _followersProfile = {};
+final Map<String, List<UserProfile>> _followingProfile = {};
+
+//
+List<UserProfile> getListOfFollowerProfile(String uid) => 
+_followersProfile[uid] ?? [];
+
+List<UserProfile> getListOfFollowingProfile(String uid) => 
+_followingProfile[uid] ?? [];
+
+Future<void> loadUserFollowerProfiles(String uid) async {
+  try {
+    // get list from firebase
+    final followerIds = await _db.getFollowerUidFromFirebase(uid);
+
+    // create list of user profiles
+    List<UserProfile> followerProfiles = [];
+
+    // go through follower IDs
+    for (String followerId in followerIds) {
+      // get user from firebase
+      UserProfile? followerProfile = await _db.getUserFromFirebase(followerId);
+
+      // add to follower profiles
+      if (followerProfile != null) {
+        followerProfiles.add(followerProfile);
+      }
+    }
+
+    // update local data
+    _followersProfile[uid] = followerProfiles;
+
+    // update UI
+    notifyListeners();
+  } catch (e) {
+    // handle errors here
+    print(e);
+  }
+}
+
+Future<void>loadUserFollowingProfiles(String uid) async {
+  try {
+    // get list from firebase
+    final followingIds = await _db.getFollowingUidFromFirebase(uid);
+
+    // create list of user profiles
+    List<UserProfile> followingProfiles = [];
+
+    // go through follower IDs
+    for (String followingId in followingIds) {
+      // get user from firebase
+      UserProfile? followingProfile = await _db.getUserFromFirebase(followingId);
+
+      // add to follower profiles
+      if (followingProfile != null) {
+        followingProfiles.add(followingProfile);
+      }
+    }
+
+    // update local data
+    _followingProfile[uid] = followingProfiles;
+
+    // update UI
+    notifyListeners();
+  } catch (e) {
+    // handle errors here
+    print(e);
+  }
+}
+
+
 }
