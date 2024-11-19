@@ -27,11 +27,9 @@ class _MyPostTileState extends State<MyPostTile> {
   late final databaseProvider =
       Provider.of<DatabaseProvider>(context, listen: false);
 
-
-      @override
+  @override
   void initState() {
     super.initState();
-
     _loadComments();
   }
 
@@ -50,7 +48,7 @@ class _MyPostTileState extends State<MyPostTile> {
       context: context,
       builder: (context) => MyInputAlertBox(
           textController: _commentController,
-          hinText: "Yype a comment..",
+          hinText: "Type a comment..",
           onPressed: () async {
             await _addComment();
           },
@@ -126,7 +124,6 @@ class _MyPostTileState extends State<MyPostTile> {
     );
   }
 
-  //UI
   @override
   Widget build(BuildContext context) {
     bool likedByCurrentUser =
@@ -152,13 +149,23 @@ class _MyPostTileState extends State<MyPostTile> {
               onTap: widget.onUserTap,
               child: Row(
                 children: [
-                  Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.primary,
+                  // Avatar dengan huruf pertama nama depan
+                  CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    child: Text(
+                      widget.post.name.isNotEmpty
+                          ? widget.post.name[0].toUpperCase()
+                          : '?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
 
                   const SizedBox(width: 10),
 
+                  // Nama lengkap atau username
                   Text(
                     widget.post.name,
                     style: TextStyle(
@@ -176,7 +183,6 @@ class _MyPostTileState extends State<MyPostTile> {
                   ),
                   const Spacer(),
 
-                  // more options delete
                   GestureDetector(
                     onTap: _showOptions,
                     child: Icon(
@@ -198,14 +204,13 @@ class _MyPostTileState extends State<MyPostTile> {
             ),
 
             const SizedBox(height: 20),
-            //like + comment
+
             Row(
               children: [
                 SizedBox(
                   width: 60,
                   child: Row(
                     children: [
-                      //like
                       GestureDetector(
                         onTap: _toggleLikePost,
                         child: likedByCurrentUser
@@ -216,7 +221,6 @@ class _MyPostTileState extends State<MyPostTile> {
                             : Icon(Icons.favorite_border,
                                 color: Theme.of(context).colorScheme.primary),
                       ),
-
                       const SizedBox(width: 5),
                       Text(
                         likeCount != 0 ? likeCount.toString() : '',
@@ -226,8 +230,6 @@ class _MyPostTileState extends State<MyPostTile> {
                     ],
                   ),
                 ),
-
-                //comment
                 Row(
                   children: [
                     GestureDetector(

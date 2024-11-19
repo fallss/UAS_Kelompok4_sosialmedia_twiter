@@ -138,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => goHomePage(context),
-          )
+        ),
       ),
       body: ListView(
         children: [
@@ -150,18 +150,20 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           const SizedBox(height: 25),
 
-          // Profile Icon
+          // Profile Icon (Modified to use CircleAvatar)
           Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              padding: const EdgeInsets.all(25),
-              child: Icon(
-                Icons.person,
-                size: 72,
-                color: Theme.of(context).colorScheme.primary,
+            child: CircleAvatar(
+              radius: 40,
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: Text(
+                _isLoading
+                    ? ''
+                    : (user!.name.isNotEmpty ? user!.name[0].toUpperCase() : '?'),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
