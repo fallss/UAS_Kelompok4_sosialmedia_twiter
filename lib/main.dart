@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uas_twitter_mediasosial/auth/auth_gate.dart';
 import 'package:uas_twitter_mediasosial/database/database_provider.dart';
 import 'package:uas_twitter_mediasosial/firebase_options.dart';
 import 'package:uas_twitter_mediasosial/themes/theme_provider.dart';

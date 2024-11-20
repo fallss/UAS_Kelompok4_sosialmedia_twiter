@@ -22,7 +22,7 @@ class MySettingsTile extends StatelessWidget {
 
       margin:const EdgeInsets.only(left: 25, right: 25, top: 10),
 
-      padding:  EdgeInsets.all(25),
+      padding:  const EdgeInsets.all(25),
 
 
       child: Row(

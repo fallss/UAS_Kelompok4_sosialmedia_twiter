@@ -60,6 +60,8 @@ final List<SubscriptionPlan> plans = [
 
 // Main Subscription Screen
 class SubscriptionScreen extends StatelessWidget {
+  const SubscriptionScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,11 +69,11 @@ class SubscriptionScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text('S U B S C R I B E'),
+        title: const Text('S U B S C R I B E'),
         foregroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: ListView.builder(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         itemCount: plans.length,
         itemBuilder: (context, index) {
           final plan = plans[index];
@@ -88,13 +90,13 @@ class SubscriptionScreen extends StatelessWidget {
                 children: [
                   Text(
                     plan.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     plan.description,
                     style: TextStyle(
@@ -102,16 +104,16 @@ class SubscriptionScreen extends StatelessWidget {
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Starting at Rp ${plan.monthlyPrice.toStringAsFixed(2)}/month',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
+                  const SizedBox(height: 8),
+                  const Text(
                     'Features',
                     style: TextStyle(
                       color: Colors.white,
@@ -121,21 +123,21 @@ class SubscriptionScreen extends StatelessWidget {
                   ),
                   ...plan.features.map(
                     (feature) => ListTile(
-                      leading: Icon(Icons.check, color: Colors.green),
+                      leading: const Icon(Icons.check, color: Colors.green),
                       title: Text(
                         feature,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   ElevatedButton(
                     onPressed: () => _showPlanDetails(context, plan),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
                       foregroundColor: Colors.white,
                     ),
-                    child: Text('Subscribe & pay'),
+                    child: const Text('Subscribe & pay'),
                     
                   ),
                 ],
@@ -154,7 +156,7 @@ class SubscriptionScreen extends StatelessWidget {
   showModalBottomSheet(
     context: context,
     backgroundColor: Colors.grey[900],
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
     ),
     builder: (context) {
@@ -162,19 +164,19 @@ class SubscriptionScreen extends StatelessWidget {
         builder: (context, setState) {
           return SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     plan.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Monthly Plan: Rp ${plan.monthlyPrice.toStringAsFixed(2)}',
                     style: TextStyle(color: Colors.grey[400], fontSize: 18),
@@ -183,8 +185,8 @@ class SubscriptionScreen extends StatelessWidget {
                     'Annual Plan: Rp ${plan.annualPrice.toStringAsFixed(2)}',
                     style: TextStyle(color: Colors.grey[400], fontSize: 18),
                   ),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 20),
+                  const Text(
                     'Features',
                     style: TextStyle(
                       color: Colors.white,
@@ -193,13 +195,13 @@ class SubscriptionScreen extends StatelessWidget {
                     ),
                   ),
                   ...plan.features.map((feature) => ListTile(
-                        leading: Icon(Icons.check, color: Colors.green),
+                        leading: const Icon(Icons.check, color: Colors.green),
                         title: Text(
                           feature,
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       )),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     children: [
                       Checkbox(
@@ -212,7 +214,7 @@ class SubscriptionScreen extends StatelessWidget {
                         checkColor: Colors.white,
                         activeColor: Colors.blueAccent,
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Text(
                           'I agree to the Terms & Conditions',
                           style: TextStyle(color: Colors.white),
@@ -241,7 +243,7 @@ class SubscriptionScreen extends StatelessWidget {
                         backgroundColor: Colors.blueAccent,
                         foregroundColor: Colors.white,
                       ),
-                      child: Text('Subscribe & pay', textAlign: TextAlign.center),
+                      child: const Text('Subscribe & pay', textAlign: TextAlign.center),
                     ),
                   ),
                 ],
@@ -262,7 +264,7 @@ class SubscriptionScreen extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           backgroundColor: Colors.grey[850],
-          title: Text(
+          title: const Text(
             'Thank you for subscribing!',
             style: TextStyle(color: Colors.white),
           ),
@@ -271,7 +273,7 @@ class SubscriptionScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK', style: TextStyle(color: Colors.blueAccent)),
+              child: const Text('OK', style: TextStyle(color: Colors.blueAccent)),
             ),
           ],
         );

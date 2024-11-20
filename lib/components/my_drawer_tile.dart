@@ -9,6 +9,16 @@ class MyDrawerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Gradien warna navy
+    LinearGradient navyGradient = LinearGradient(
+      colors: [
+        Colors.blueAccent, // Navy
+        Colors.blueAccent, // Medium Blue
+      ],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    );
+
     return ListTile(
       
       title: Text(title,style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),

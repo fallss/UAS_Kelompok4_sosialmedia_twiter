@@ -49,7 +49,7 @@ final allComments = listeningProvider.getComments(widget.post.id);
             allComments.isEmpty
             ?
 
-            Center(child: Text("No comments yet.."),)
+            const Center(child: Text("No comments yet.."),)
 
             :
             ListView.builder(

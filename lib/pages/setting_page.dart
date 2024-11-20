@@ -18,7 +18,7 @@ class SettingPage extends StatelessWidget {
 
         //APP BAR
         centerTitle: true,
-        title: Text("S E T T I N G S"),
+        title: const Text("S E T T I N G S"),
         foregroundColor: Theme.of(context).colorScheme.primary,
       ),
 

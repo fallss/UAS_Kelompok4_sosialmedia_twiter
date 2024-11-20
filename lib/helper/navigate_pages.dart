@@ -21,3 +21,10 @@ void goPostPage(BuildContext context, Post post) {
     ),
   );
 }
+
+void goHomePage(BuildContext context) {
+  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => HomePage(),
+  ),
+  (route) => route.isFirst,
+  );
+}

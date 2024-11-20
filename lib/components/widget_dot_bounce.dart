@@ -10,7 +10,7 @@ class WidgetDotBounce extends StatefulWidget {
   final AnimationController? controller;
 
   const WidgetDotBounce({
-    Key? key,
+    super.key,
     this.color,
     this.size = 18.0,
     this.count = 3,
@@ -18,8 +18,7 @@ class WidgetDotBounce extends StatefulWidget {
     this.duration = const Duration(milliseconds: 300),
     this.controller,
   })  : assert(!(itemBuilder is IndexedWidgetBuilder && color is Color) && !(itemBuilder == null && color == null),
-          'You should specify either an itemBuilder or a color'),
-        super(key: key);
+          'You should specify either an itemBuilder or a color');
 
   @override
   WidgetDotBounceState createState() => WidgetDotBounceState();

@@ -249,4 +249,92 @@ Future<List<String>> getFollowingUidFromFirebase(String uid) async {
   return snapshot.docs.map((doc) => doc.id).toList();
 }
 
+  // Get or create chat ID between two users
+  Future<String> getOrCreateChatId(String uid1, String uid2) async {
+    final chatId = uid1.compareTo(uid2) < 0 ? '$uid1\_$uid2' : '$uid2\_$uid1';
+
+    final chatDoc = await _db.collection('chats').doc(chatId).get();
+    if (!chatDoc.exists) {
+      // Create new chat document with participants
+      await _db.collection('chats').doc(chatId).set({
+        'participants': [uid1, uid2],
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+    }
+
+    return chatId;
+  }
+
+  // Fungsi pencarian pengguna berdasarkan nama
+Future<List<UserProfile>> searchUsersByName(String searchQuery) async {
+  try {
+    QuerySnapshot snapshot = await _db
+        .collection('Users')
+        .where('name', isGreaterThanOrEqualTo: searchQuery)
+        .where('name', isLessThan: searchQuery + 'z')
+        .get();
+
+    return snapshot.docs
+        .map((doc) => UserProfile.fromDocument(doc))
+        .toList();
+  } catch (e) {
+    print(e);
+    return [];
+  }
 }
+
+
+   // Send message with a timestamp
+  Future<void> sendMessage({
+    required String chatId,
+    required String senderId,
+    required String message,
+  }) async {
+    await _db.collection('chats')
+      .doc(chatId)
+      .collection('messages')
+      .add({
+        'text': message,
+        'senderId': senderId,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+  }
+
+  // Fetch chat messages ordered by timestamp
+  Stream<List<Map<String, dynamic>>> getMessages(String chatId) {
+    return _db.collection('chats')
+      .doc(chatId)
+      .collection('messages')
+      .orderBy('timestamp', descending: true)
+      .snapshots()
+      .map((snapshot) => snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList());
+  }
+
+  // Get user's name by uid
+  Future<String?> getUserName(String uid) async {
+    try {
+      final userDoc = await _db.collection('Users').doc(uid).get();
+      return userDoc.data()?['name'] ?? 'Unknown';
+    } catch (e) {
+      print("Error fetching user name: $e");
+      return 'Unknown';
+    }
+  }
+  //search users by name
+  Future<List<UserProfile>> searchUsersInFirebase (String searchTerm) async {
+    try{
+      QuerySnapshot snapshot = await _db
+      .collection("Users")
+      .where('username', isGreaterThanOrEqualTo: searchTerm)
+      .where('username',isLessThanOrEqualTo: '$searchTerm\uf8ff')
+      .get();
+
+      return snapshot.docs.map((doc)=>UserProfile.fromDocument(doc)).toList();
+
+    }
+    catch (e){
+      return[];
+    }
+  }
+}
+

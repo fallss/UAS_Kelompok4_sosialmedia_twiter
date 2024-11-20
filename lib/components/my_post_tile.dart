@@ -152,9 +152,18 @@ class _MyPostTileState extends State<MyPostTile> {
               onTap: widget.onUserTap,
               child: Row(
                 children: [
-                  Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.primary,
+                  // Avatar dengan huruf pertama nama depan
+                  CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    child: Text(
+                      widget.post.name.isNotEmpty
+                          ? widget.post.name[0].toUpperCase()
+                          : '?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
 
                   const SizedBox(width: 10),
