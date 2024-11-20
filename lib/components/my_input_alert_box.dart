@@ -31,8 +31,8 @@ class MyInputAlertBox extends StatelessWidget {
       content: TextField(
         controller: textController,
 
-        maxLength: 140,
-        maxLines: 3,
+        maxLength: 500,
+        maxLines: 9,
 
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(

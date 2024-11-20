@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uas_twitter_mediasosial/pages/home_page.dart';
 import 'package:uas_twitter_mediasosial/pages/profile_page.dart';
 
 import '../models/post.dart';

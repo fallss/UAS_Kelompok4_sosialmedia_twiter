@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uas_twitter_mediasosial/database/database_provider.dart';
 import 'package:uas_twitter_mediasosial/firebase_options.dart';
+import 'package:uas_twitter_mediasosial/introduction_screen.dart';
 import 'package:uas_twitter_mediasosial/themes/theme_provider.dart';
-
-
 void main() async{
 
   //firebase 
@@ -33,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:const AuthGate(),
+      home:IntroductionScreen(),
       theme: Provider.of<ThemeProvider>(context).themeData,
     );
 

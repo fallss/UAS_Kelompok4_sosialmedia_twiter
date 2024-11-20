@@ -56,25 +56,37 @@ Future<void> postMessage(String message) async{
   Widget build(BuildContext context) {
 
     //
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      drawer:  MyDrawer(),
-
-
-
-      // App bar
-      appBar: AppBar(
-        title: const Text("H O M E"),
-        centerTitle: true,
-        foregroundColor: Theme.of(context).colorScheme.primary,
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: _openPostMessageBox,
-        child:const Icon(Icons.add),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        drawer:  MyDrawer(),
+      
+      
+      
+        // App bar
+        appBar: AppBar(
+          title: const Text("H O M E"),
+          centerTitle: true,
+          foregroundColor: Theme.of(context).colorScheme.primary,
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: "For You"),
+              Tab(text: "Following"),
+            ],
+          ),
         ),
-
-        body:  _buildPostlist(listeningProvider.allPots),
+      
+        floatingActionButton: FloatingActionButton(
+          onPressed: _openPostMessageBox,
+          child:const Icon(Icons.add),
+          ),
+      
+          body: TabBarView(children: [
+            _buildPostlist(listeningProvider.allPots),
+            _buildPostlist(listeningProvider.followingPosts),
+          ]),
+      ),
     );
   }
   Widget _buildPostlist(List<Post> posts) {
